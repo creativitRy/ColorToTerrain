@@ -149,8 +149,8 @@ else
 
 	for (var x = extent.getX(); x < extent.getWidth(); x++)
 	{
-	    for (var y = extent.getY(); y < extent.getHeight(); y++)
-	    {
+		for (var y = extent.getY(); y < extent.getHeight(); y++)
+		{
 			if (!dimension.isTilePresent(truncate((x + xDefault) / 128.0), truncate((y + yDefault) / 128.0) ))
 				continue;
 
@@ -177,7 +177,7 @@ else
 			dimension.setTerrainAt(x + xDefault, y + yDefault, org.pepsoft.worldpainter.Terrain.VALUES[palette[index].t]);
 
 
-	    }
+		}
 	}
 
 	print("\nDone! :D");
@@ -196,9 +196,7 @@ function pad(n)
 
 function truncate(number)
 {
-    return number > 0
-         ? Math.floor(number)
-         : Math.ceil(number);
+	return number > 0 ? Math.floor(number) : Math.ceil(number);
 }
 
 //squared distance between two color values TODO: change to better color format
