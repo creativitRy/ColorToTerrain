@@ -152,11 +152,12 @@ else
 	    for (var y = extent.getY(); y < extent.getHeight(); y++)
 	    {
 			if (!dimension.isTilePresent(truncate((x + xDefault) / 128.0), truncate((y + yDefault) / 128.0) ))
-			{
 				continue;
-			}
 
-			var color = new java.awt.Color(colorMap.getColour(x, y));
+			var color = new java.awt.Color(colorMap.getColour(x, y), java.lang.Boolean.TRUE);
+
+			if (color.getAlpha() < 128)
+				continue;
 
 			var distance = 999999;
 			var index = -1;
