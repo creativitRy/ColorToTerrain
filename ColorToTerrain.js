@@ -113,12 +113,25 @@ else
 		palette.push({t:terrain, r:parseInt(val[1]), g:parseInt(val[2]), b:parseInt(val[3])});
 	}
 
+	var colorMap = wp.getHeightMap().fromFile(arguments[0]).go();
+	var mask = colorMap;
+
 	if (arguments.length > 2)
 	{
 		for (var i = 2; i < arguments.length; i++)
 		{
 			if (arguments[i] == "")
 				break;
+
+			if (arguments[i].indexOf("mask: ") == 0)
+			{
+				mask = wp.getHeightMap().fromFile(arguments[i].substring(6).trim()).go();
+				
+				print("\nMask detected");
+				print(arguments[i].substring(6).trim());
+				continue;
+			}
+
 			var val = arguments[i].split(" ");
 			if (val.length != 4)
 			{
@@ -140,7 +153,6 @@ else
 		print(terrainArr[palette[i].t]);
 	}
 	
-	var colorMap = wp.getHeightMap().fromFile(arguments[0]).go();
 	var extent = colorMap.getExtent();
 	print("\nImage's upper left pixel will be placed in the coordinate (x: " + xDefault + ", y: " + yDefault + ").");
 	print("Tiles that are empty will remain empty.");
@@ -152,6 +164,9 @@ else
 		for (var y = extent.getY(); y < extent.getHeight(); y++)
 		{
 			if (!dimension.isTilePresent(truncate((x + xDefault) / 128.0), truncate((y + yDefault) / 128.0) ))
+				continue;
+
+			if (mask !== colorMap && mask.getHeight(x, y) < 128)
 				continue;
 
 			var color = new java.awt.Color(colorMap.getColour(x, y), java.lang.Boolean.TRUE);
